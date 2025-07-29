@@ -2,6 +2,7 @@ package org.challenge;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(persona);*/
     }
 }
