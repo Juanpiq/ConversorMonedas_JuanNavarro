@@ -3,6 +3,8 @@ package org.challenge;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.challenge.Modelo.Moneda;
+import org.challenge.Modelo.MonedaDTO;
 
 import java.io.IOException;
 import java.net.URI;
@@ -11,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -19,6 +22,7 @@ public class Main {
         /*Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(persona);*/
         Scanner in = new Scanner(System.in);
+        in.useLocale(Locale.US);
         int op = 1;
         String url;
 
@@ -42,6 +46,7 @@ public class Main {
                         System.out.println("¡Hasta luego!");
                     else{
                         url = EscogerOpcion(in, op);
+                        //System.out.println("url: " + url);
                         HttpClient client = HttpClient.newHttpClient();
                         HttpRequest request = HttpRequest.newBuilder()
                                 .uri(URI.create(url))
@@ -53,15 +58,16 @@ public class Main {
                         String json = response.body();
 
                         Gson gson = new GsonBuilder()
-                                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                                 .create();
 
-
+                        MonedaDTO monedaDTO = gson.fromJson(json, MonedaDTO.class);
+                        Moneda moneda = new Moneda(monedaDTO);
+                        System.out.println(moneda.toString());
+                        ImprimirResultado(in, moneda);
                     }
                 } else {
                     System.out.println("Opción no disponible, vuelva a intentarlo\n");
                     op = 1;
-                    in.nextLine();
                 }
             }catch(InputMismatchException e){
                 System.out.println("Ingrese un numero válido");
@@ -114,6 +120,28 @@ public class Main {
             default: break;
         }
         return "https://v6.exchangerate-api.com/v6/"+API_KEY+"/pair/"+moneda1+"/"+moneda2;
+    }
+
+    static void ImprimirResultado(Scanner in, Moneda moneda){
+        boolean valido = true;
+        while(valido){
+            try{
+                double cash;
+                System.out.print("Ingresa la cantidad de dinero a convertir: ");
+                cash = in.nextDouble();
+                if((cash <= 0))
+                    System.out.println("Ingrese un numero positivo y mayor que 0");
+                else {
+                    System.out.printf(Locale.US, "%.2f %s equivale a %.2f %s",
+                            cash, moneda.getBaseCode(), moneda.getConversionRate()*cash, moneda.getTargetCode());
+                    valido = false;
+                }
+            }catch(RuntimeException e){
+                System.out.println("Ingrese un valor numérico");
+                in.nextLine();
+            }
+
+        }
     }
 
 }
