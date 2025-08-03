@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b0a4a33-292c-45b3-abd9-7db2306a7048" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/challenge/Modelo/Moneda.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/challenge/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/challenge/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
